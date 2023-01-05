@@ -1,31 +1,50 @@
-package com.imt.andriamparivonylenglart
+package com.imt.andriamparivonylenglart.presentation.detail
+
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.imt.andriamparivonylenglart.domain.Book
 
 
 @Composable
-fun DetailScreen(name: String?, price: String){
-    val description = "Après la mort de ses parents (Lily et James Potier), Henri est recueilli par sa tante Pétunia (la sœur de Lily) et son oncle Vernon à l'âge d'un an. Ces derniers, animés depuis toujours d'une haine féroce envers les parents du garçon qu'ils qualifient de gens « bizarres », voire de « monstres », traitent froidement leur neveu et demeurent indifférents aux humiliations que leur fils Dudley lui fait subir. Henri ignore tout de l'histoire de ses parents, si ce n'est qu'ils ont été tués dans un accident de voiture"
+fun DetailScreen(viewModel: BookViewModel){
+
+    val state = viewModel.state.observeAsState()
+    val refreshCount by remember { mutableStateOf(1) }
+
+    LaunchedEffect(key1 = refreshCount) {
+        viewModel.loadBook()
+    }
+        state.value?.book?.let { Info(book = it) }
+
+}
+
+@Composable
+fun Info(book : Book)
+{
     var qty by remember { mutableStateOf(TextFieldValue("1")) }
-    Box(
+    Column(
         modifier = Modifier
+            .verticalScroll(rememberScrollState())
             .fillMaxSize()
             .padding(20.dp)
     ) {
         Column(
             verticalArrangement = Arrangement.Center
         ){
-            Text(text = name ?: "Title", fontSize = 30.sp)
+            Text(text = book.title, fontSize = 30.sp)
             Spacer(modifier = Modifier.height(300.dp))
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -33,7 +52,7 @@ fun DetailScreen(name: String?, price: String){
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                Text(text = price, fontSize = 30.sp)
+                Text(text = book.price, fontSize = 30.sp)
 
                 OutlinedTextField(
                     value = qty,
@@ -58,7 +77,9 @@ fun DetailScreen(name: String?, price: String){
                     Text(text = "Ajouter au panier")
                 }
             }
-            Text(text = description)
+            book.synopsis.forEach {
+                Text(text = it)
+            }
         }
     }
 }
