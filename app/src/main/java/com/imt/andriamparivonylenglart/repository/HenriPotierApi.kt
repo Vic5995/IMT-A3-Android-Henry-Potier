@@ -1,5 +1,6 @@
-package com.imt.andriamparivonylenglart
+package com.imt.andriamparivonylenglart.repository
 
+import com.imt.andriamparivonylenglart.domain.Book
 import retrofit2.http.GET
 
 interface HenriPotierApi {

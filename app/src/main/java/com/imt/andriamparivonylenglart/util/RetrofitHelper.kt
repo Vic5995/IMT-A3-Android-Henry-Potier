@@ -1,4 +1,4 @@
-package com.imt.andriamparivonylenglart
+package com.imt.andriamparivonylenglart.util
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
