@@ -21,7 +21,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AndriamparivonyLenglartTheme {
+            Navigation()
+            /*AndriamparivonyLenglartTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     LibrarySize(viewModel = viewModel )
                 }
-            }
+            }*/
         }
     }
 }
@@ -44,7 +45,7 @@ fun LibrarySize(viewModel: LibraryViewModel) {
 
     val state = viewModel.state.observeAsState()
     val refreshCount by remember { mutableStateOf(1) }
-    
+
     LaunchedEffect(key1 = refreshCount){
         viewModel.loadBooks()
     }
