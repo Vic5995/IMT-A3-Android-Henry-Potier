@@ -1,6 +1,7 @@
 package com.imt.andriamparivonylenglart.presentation.detail
 
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -11,11 +12,14 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.imt.andriamparivonylenglart.domain.Book
+import com.imt.andriamparivonylenglart.room.AppDatabase
+import com.imt.andriamparivonylenglart.room.CartItem
 
 
 @Composable
@@ -34,6 +38,7 @@ fun DetailScreen(viewModel: BookViewModel){
 @Composable
 fun Info(book : Book)
 {
+    val context = LocalContext.current
     var qty by remember { mutableStateOf(TextFieldValue("1")) }
     Column(
         modifier = Modifier
@@ -72,7 +77,11 @@ fun Info(book : Book)
                     .padding(top = 15.dp, bottom = 15.dp)
             ) {
                 Button(
-                    onClick = {},
+                    onClick = {
+                        val cartItem = CartItem(book.isbn, book.title, book.price, book.cover, qty.toString().toInt())
+                        Log.d("ADD : ", cartItem.toString())
+                        AppDatabase.getInstance(context).cartItemDao().addCartItem(cartItem)
+                    },
                 ){
                     Text(text = "Ajouter au panier")
                 }

@@ -2,4 +2,5 @@
     <string name="app_name">Andriamparivony Lenglart</string>
 
     <string name="library_title">Liste des livres</string>
+    <string name="cart_title">Panier</string>
 </resources>

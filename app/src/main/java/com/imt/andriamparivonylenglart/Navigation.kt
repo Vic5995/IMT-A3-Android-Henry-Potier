@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.imt.andriamparivonylenglart.presentation.detail.BookViewModel
 import com.imt.andriamparivonylenglart.presentation.detail.DetailScreen
 import com.imt.andriamparivonylenglart.presentation.library.MainScreen
+import com.imt.andriamparivonylenglart.presentation.shoppingcart.CartScreen
 
 @Composable
 fun Navigation() {
@@ -32,6 +33,9 @@ fun Navigation() {
             val bookId = entry.arguments?.getString("book")
 
             bookId?.let { DetailScreen(BookViewModel(bookId))  }
+        }
+        composable(route = Screen.CartScreen.route) {
+            CartScreen()
         }
     }
 }
