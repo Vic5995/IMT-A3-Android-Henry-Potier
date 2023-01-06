@@ -4,4 +4,5 @@
     <string name="library_title">Liste des livres</string>
     <string name="synopsis">Synopsis</string>
     <string name="add_to_cart">Ajouter au panier</string>
+    <string name="title">Henri Potier</string>
 </resources>

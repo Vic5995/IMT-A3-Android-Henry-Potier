@@ -5,26 +5,31 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.imt.andriamparivonylenglart.R
 import com.imt.andriamparivonylenglart.domain.Book
 
 
 @Composable
-fun DetailScreen(viewModel: BookViewModel){
+fun DetailScreen(viewModel: BookViewModel, navController: NavController){
 
     val state = viewModel.state.observeAsState()
     val refreshCount by remember { mutableStateOf(1) }
@@ -32,7 +37,33 @@ fun DetailScreen(viewModel: BookViewModel){
     LaunchedEffect(key1 = refreshCount) {
         viewModel.loadBook()
     }
-        state.value?.book?.let { OrientationSetup(book = it) }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                backgroundColor = Color.Blue,
+                title = {
+                    Text(
+                        text = state.value?.book?.title ?: stringResource(id = R.string.title),
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        color = Color.White,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        navController.navigateUp()
+                    }) {
+                        Icon(Icons.Rounded.ArrowBack, "")
+                    }
+                }
+            )},
+        content = {
+            state.value?.book?.let { OrientationSetup(book = it) }
+        },
+    )
 }
 
 @Composable
@@ -149,14 +180,16 @@ fun Info(book: Book) {
 @Composable
 fun Synopsis(book: Book) {
     Column() {
-        Text(text = stringResource(R.string.synopsis))
+        Text(text = stringResource(R.string.synopsis), fontWeight = FontWeight.SemiBold)
         Spacer(modifier = Modifier.height(10.dp))
         book.synopsis.forEach {
-            Text(text = it)
+            Text(
+                text = it,
+                textAlign = TextAlign.Justify,
+            )
             Spacer(modifier = Modifier.height(20.dp))
         }
     }
-    
 }
 
 

@@ -2,7 +2,6 @@ package com.imt.andriamparivonylenglart
 
 
 import androidx.compose.runtime.*
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -31,7 +30,7 @@ fun Navigation() {
 
             val bookId = entry.arguments?.getString("book")
 
-            bookId?.let { DetailScreen(BookViewModel(bookId))  }
+            bookId?.let { DetailScreen(BookViewModel(bookId), navController = navController)  }
         }
     }
 }
